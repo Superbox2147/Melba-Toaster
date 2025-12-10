@@ -14,21 +14,21 @@ extends Node2D
 @export var model_position: Vector2 = Vector2.ZERO:
 	get:
 		if model:
-			return model.adjust_position + Vector2(model.size) / 2
+			return model.position + model.get_canvas_info()["size_in_pixels"] / 2
 		else:
 			return Vector2(-200, 580)
 
 	set(value):
 		if model:
-			model.adjust_position = value - Vector2(model.size) / 2
+			model.position = value - model.get_canvas_info()["size_in_pixels"] / 2
 
 @export var model_scale: float = 1.0:
 	get:
-		return model.adjust_scale if model else 1.0
+		return model.scale.x if model else 1.0
 
 	set(value):
 		if model:
-			model.adjust_scale = value
+			model.scale = Vector2(value, value)
 
 @export var model_eyes_target: Vector2 = Vector2.ZERO:
 	get:
@@ -194,7 +194,7 @@ func play_random_idle_animation() -> void:
 		play_animation("idle3")
 
 func get_model_pivot() -> Vector2:
-	return Vector2(model.size) / 2.0 + model.adjust_position
+	return Vector2(model.get_canvas_info()["size_in_pixels"]) / 2.0 + model.position
 
 func mouse_to_scale(change: float) -> void:
 	var new_scale: float = model_scale + change
@@ -239,7 +239,7 @@ func mouse_to_position(change: Vector2) -> void:
 	var pivot: Vector2 = get_model_pivot()
 	sprite.offset = -pivot
 	sprite.position = pivot
-	model.adjust_position += change
+	model.position += change
 
 func move_eyes(mouse_position: Vector2) -> void:
 	if mouse_position == Vector2.ZERO:
