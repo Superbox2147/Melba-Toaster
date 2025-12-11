@@ -98,7 +98,5 @@ func _get_asset_rotation(initial_points: Array[Vector2], pos: Array[Vector2]) ->
 
 	var angle = angle2 - angle1
 
-	if angle > 0:
-		return angle - _90_DEG_IN_RAD
-	return angle + _90_DEG_IN_RAD
+	return angle
 #endregion
