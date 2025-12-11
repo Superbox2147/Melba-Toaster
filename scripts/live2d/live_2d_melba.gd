@@ -1,6 +1,5 @@
 extends Node2D
 
-@onready var sprite: Sprite2D = %ModelSprite
 @onready var model: GDCubismUserModel = %Model
 @onready var target_point: GDCubismEffectTargetPoint = %TargetPoint
 @onready var eye_blink: Node = %EyeBlinking
@@ -216,29 +215,25 @@ func mouse_to_scale(change: float) -> void:
 
 func mouse_to_rotation(change: float) -> void:
 	var pivot: Vector2 = get_model_pivot()
-	sprite.offset = -pivot
-	sprite.position = pivot
+	model.pivot_offset = pivot
 
-	var rot: float = sprite.rotation_degrees + change
+	var rot: float = model.rotation_degrees + change
 
 	if tweens.has("rotation"):
 		tweens.rotation.kill()
 
 	tweens.rotation = create_tween()
-	tweens.rotation.tween_property(sprite, "rotation_degrees", rot, 0.1)
+	tweens.rotation.tween_property(model, "rotation_degrees", rot, 0.1)
 	await tweens.rotation.finished
 
 	if rot >= 360.0:
 		rot -= 360.0
-		sprite.rotation_degrees = rot
+		model.rotation_degrees = rot
 	elif rot <= -360.0:
 		rot += 360.0 + change
-		sprite.rotation_degrees = rot
+		model.rotation_degrees = rot
 
 func mouse_to_position(change: Vector2) -> void:
-	var pivot: Vector2 = get_model_pivot()
-	sprite.offset = -pivot
-	sprite.position = pivot
 	model.position += change
 
 func move_eyes(mouse_position: Vector2) -> void:
@@ -267,15 +262,12 @@ func _on_change_position(new_position: String) -> void:
 				tweens.trans.kill()
 
 			var pos: Array = positions.model
-			var pivot: Vector2 = get_model_pivot()
 
 			tweens.trans = create_tween().set_trans(Tween.TRANS_QUINT)
 			tweens.trans.set_parallel()
 			tweens.trans.tween_property(self, "model_position", pos[0], 1)
 			tweens.trans.tween_property(self, "model_scale", pos[1], 1)
-			tweens.trans.tween_property(sprite, "rotation", 0, 1)
-			tweens.trans.tween_property(sprite, "offset", -pivot, 1)
-			tweens.trans.tween_property(sprite, "position", pivot, 1)
+			tweens.trans.tween_property(model, "rotation", 0, 1)
 
 func _play_emerge_animation() -> void:
 	$AnimationPlayer.play("emerge")
