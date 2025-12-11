@@ -71,6 +71,8 @@ metadata/_edit_vertical_guides_ = [1100.0]
 [node name="Model" type="GDCubismUserModel" parent="."]
 unique_name_in_owner = true
 z_index = -1
+position = Vector2(820, 1160)
+scale = Vector2(0.33, 0.33)
 assets = "res://assets/live2d/Melba_Final2/melbatoast_model.model3.json"
 playback_process_mode = 2
 anim_loop = false
