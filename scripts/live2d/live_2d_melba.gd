@@ -13,13 +13,14 @@ extends Node2D
 @export var model_position: Vector2 = Vector2.ZERO:
 	get:
 		if model:
-			return model.position + model.get_canvas_info()["size_in_pixels"] / 2
+			# In gd_cubism v0.9 direct rendering, position is the model origin
+			return model.position
 		else:
 			return Vector2(-200, 580)
 
 	set(value):
 		if model:
-			model.position = value - model.get_canvas_info()["size_in_pixels"] / 2
+			model.position = value
 
 @export var model_scale: float = 1.0:
 	get:
@@ -193,7 +194,8 @@ func play_random_idle_animation() -> void:
 		play_animation("idle3")
 
 func get_model_pivot() -> Vector2:
-	return Vector2(model.get_canvas_info()["size_in_pixels"]) / 2.0 + model.position
+	# In v0.9 direct rendering, the model origin is at position
+	return model.position
 
 func mouse_to_scale(change: float) -> void:
 	var new_scale: float = model_scale + change
@@ -214,9 +216,7 @@ func mouse_to_scale(change: float) -> void:
 	tweens.scale.tween_property(self, "model_position", new_pos, 0.05)
 
 func mouse_to_rotation(change: float) -> void:
-	var pivot: Vector2 = get_model_pivot()
-	model.pivot_offset = pivot
-
+	# GDCubismUserModel doesn't have pivot_offset, rotation happens around origin
 	var rot: float = model.rotation_degrees + change
 
 	if tweens.has("rotation"):
