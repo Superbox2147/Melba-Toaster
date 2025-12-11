@@ -83,7 +83,9 @@ func _pin(asset: PinnableAsset, model: GDCubismUserModel) -> void:
 	var pos: Vector2 = ary_surface[ArrayMesh.ARRAY_VERTEX][asset.custom_point]
 	var pos2: Vector2 = ary_surface[ArrayMesh.ARRAY_VERTEX][asset.second_point]
 
-	asset.node.position = pos + (model.scale.x * asset.position_offset)
+	# Transform mesh position by model's position and scale for v0.9 direct rendering
+	var world_pos: Vector2 = model.position + (pos * model.scale.x)
+	asset.node.position = world_pos + (model.scale.x * asset.position_offset)
 	asset.node.scale = Vector2(model.scale.x, model.scale.x) * asset.scale_offset
 	asset.node.rotation = _get_asset_rotation(asset.initial_points, [pos, pos2])
 
