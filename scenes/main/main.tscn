@@ -606,7 +606,7 @@ process_mode = 3
 script = ExtResource("1_bldvu")
 client = NodePath("WebSocketClient")
 control_panel = NodePath("ControlPanel")
-lower_third = NodePath("SubViewportContainer/SpoutTarget/LowerThirdManager")
+lower_third = NodePath("SubViewportContainer/SpoutTarget/CanvasLayer/LowerThirdManager")
 mic = NodePath("SubViewportContainer/SpoutTarget/Microphone")
 audio_manager = NodePath("AudioManager")
 spout_target = NodePath("SubViewportContainer/SpoutTarget")
@@ -653,7 +653,9 @@ sprite_frames = SubResource("SpriteFrames_4nhqd")
 animation = &"in"
 centered = false
 
-[node name="LowerThirdManager" parent="SubViewportContainer/SpoutTarget" instance=ExtResource("6_22ojb")]
+[node name="CanvasLayer" type="CanvasLayer" parent="SubViewportContainer/SpoutTarget"]
+
+[node name="LowerThirdManager" parent="SubViewportContainer/SpoutTarget/CanvasLayer" instance=ExtResource("6_22ojb")]
 
 [node name="BeatsCounter" type="Label" parent="."]
 anchors_preset = 2
